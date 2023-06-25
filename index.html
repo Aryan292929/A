@@ -1,0 +1,4030 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Weather Info</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+  <style>
+    body {
+      margin: 0px;
+    }
+
+    main {
+      padding: 10px;
+      border: 4px double brown;
+      background-color: floralwhite;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      grid-gap: 10px;
+      justify-content: center;
+      justify-items: center;
+      align-items: center;
+      background-color: pink;
+
+      padding: 20px;
+
+    }
+
+    #current_weather_container {
+      background-color: skyblue;
+      padding: 20px;
+      width: 95%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    #forecast_weather_container {
+      background-color: skyblue;
+      padding: 20px;
+      width: 95%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .city_name_box {
+      display: flex;
+      justify-content: space-between;
+
+    }
+
+    .search_box {
+      display: flex;
+      column-gap: 10px;
+      height: 40px;
+    }
+
+    .search_box img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+
+    }
+
+
+    .search_box input {
+      width: 100%;
+      border-radius: 10px;
+      color: indigo;
+      padding: 5px;
+
+    }
+
+    .temp_clould_box {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 5px;
+    }
+
+    .cloud_img {
+      width: 120px;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .temp_details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .cloud_img img {
+      height: 100px;
+      width: 100px;
+      align-items: center;
+
+    }
+
+    .cloud_img p {
+
+      color: deeppink;
+    }
+
+    .current_temp {
+      font-size: 48px;
+      color: blueviolet;
+    }
+
+    .location span {
+      font-size: 24px;
+      color: orangered;
+    }
+
+
+    .total_other_details_container {
+      display: grid;
+      grid-template-columns: 32% 31% 32%;
+      grid-gap: 10px;
+    }
+
+    .inner_discription {
+      display: flex;
+      flex-direction: column;
+
+
+    }
+
+
+
+    .other_details_box {
+      background-color: white;
+      padding: 5px;
+      box-sizing: border-box;
+
+      display: flex;
+      color: blue;
+      border-radius: 10px;
+      grid-gap: 10px;
+      overflow: auto;
+    }
+
+    .forecast_details_box {
+      width: 100px;
+      background-color: white;
+      padding: 5px;
+      box-sizing: border-box;
+
+      display: flex;
+      color: blue;
+      border-radius: 10px;
+      grid-gap: 10px;
+      overflow: auto;
+    }
+
+
+    .other_details_box img,
+    .forecast_details_box img {
+      max-width: 25px;
+    }
+
+    .sun img {
+      width: 50px;
+    }
+
+    .other_details_box_0 {
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      grid-column: 1/-1;
+      padding: 5px;
+      border-radius: 10px;
+
+    }
+
+    .other_details_box_0 img {
+      width: 30px;
+    }
+
+    .other_details_box_sun {
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      grid-column: 1/-1;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: transparent;
+    }
+
+    .time {
+      font-size: 12px;
+      color: darkslategray;
+    }
+
+    .sunset_sunrise_box {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      grid-column: 1/-1;
+      border-radius: 10px;
+      background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaG3qLKOXgZ5dhNkOWCTjewrlSaBx8OgJ3KkbththcWM-KwS-yCHnhWjGx&s=10);
+
+    }
+
+
+
+    .title_text {
+      font-size: 10px;
+      color: slategray;
+    }
+
+    .result_text {
+      color: blue;
+    }
+
+    #total_forecast {
+
+      display: flex;
+
+      width: 100%;
+      overflow: auto;
+
+      grid-gap: 20px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 4px double gold;
+
+    }
+
+    #forcast_heading {
+      background-color: blueviolet;
+      color: white;
+      padding: 10px;
+      font: bold;
+      border-radius: 5px;
+      font-style: 20px;
+      text-shadow: 2px 1px gray;
+    }
+
+
+    #main-hed {
+      background-color: black;
+      box-shadow: 3px 4px gray;
+      border-radius: 3px;
+      color: lightcyan;
+      padding: 5px;
+      text-align: center;
+      text-shadow: 2px 0.5px gray;
+      font-size: 18px;
+    }
+
+    .hedfoot-heading1 {
+      color: cyan;
+      font-size: 20px
+    }
+
+    header {
+      background-color: black;
+      color: dodgerblue;
+      font: bold;
+      padding: 3px;
+      border: 4px double yellow;
+      /* line-height: 10px;*/
+      text-indent: 0px;
+
+      text-align: center;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ring {
+      width: 90px;
+      height: 90px;
+      border: 0px solid #000;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .ring:nth-child(1) {
+      border-bottom-width: 8px;
+      border-color: rgb(255, 255, 255);
+      animation: rotate1 2s linear infinite;
+      -webkit-animation: rotate1 2s linear infinite;
+    }
+
+    .ring:nth-child(2) {
+      border-right-width: 8px;
+      border-color: rgb(248, 95, 7);
+      animation: rotate2 2s linear infinite;
+      -webkit-animation: rotate2 2s linear infinite;
+    }
+
+    .ring:nth-child(3) {
+      border-top-width: 8px;
+      border-color: rgb(18, 240, 40);
+      animation: rotate3 2s linear infinite;
+      -webkit-animation: rotate3 2s linear infinite;
+    }
+
+    .loading {
+      color: #2acaff;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    #abhi {
+      font-size: 12px;
+      color: orange
+    }
+
+    #aryan {
+      font-size: 10px;
+      color: yellow
+    }
+
+    @keyframes rotate1 {
+      0% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+      }
+
+      100% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+      }
+    }
+
+    @keyframes rotate2 {
+      0% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+      }
+
+      100% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+      }
+    }
+
+    @keyframes rotate3 {
+      0% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+      }
+
+      100% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+      }
+    }
+
+
+    .footerlogo {
+      animation: abhishek 1s alternate infinite;
+    }
+
+    @keyframes abhishek {
+      to {
+        filter: hue-rotate(1turn);
+      }
+    }
+
+    .hedfoot-heading2 {
+      color: red;
+      font-size: 14px;
+    }
+
+    footer {
+      color: red;
+      background-color: lightgoldenrodyellow;
+      font: bold;
+      padding: 3px;
+      border-radius: 2px;
+      border: 4px double green;
+      /* line-height: 8px;*/
+      text-align: center;
+
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <header id="header1">
+
+    <h2 class="hedfoot-heading1">LIVE WEATHER INFORMATION</h2>
+
+    <div class="container">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <span class="loading">
+        <h2 id="abhi">Aryan_abhi</h2>
+        <p id="aryan">Website Collection Point</p>
+      </span>
+    </div>
+    <br><br>
+  </header>
+
+
+  <main>
+
+
+    <h2 id="main-hed">Live Weather Report</h2>
+
+    <br>
+
+    <div id="container">
+
+      <div id="current_weather_container">
+
+        <div class="search_box">
+
+          <input type="search" placeholder="Enter City/State/Country Name" id="city-input">
+
+          <img id="search" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD8tzkmSKcybAcntmeKO9rxO4Ya7bR8-r_Jw&usqp=CAU">
+
+        </div>
+
+        <br>
+
+        <div class="temp_clould_box">
+
+
+          <div class="temp_details">
+
+            <div class="current_temp"><span id="current-temp">00</span><span></span></div>
+
+            <div class="location"><i class="material-icons" style="color: red; font-size: 36px">place</i>
+              <span id="city-show">Gorakhpur</span>
+              <p class="time" id="time">Date/Time</p>
+            </div>
+          </div>
+
+          <div class="cloud_img">
+            <img id="icon" src="">
+            <br>
+
+            <p>
+
+              <span id="main">main</span>
+              <span>,</span>
+              <span id="description">description</span>
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="total_other_details_container">
+
+          <div class="other_details_box">
+
+
+            <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+            <div class="inner_discription">
+              <span id="temp-feels-like">00</span><span class="title_text">Feel Like</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+            <div class="inner_discription">
+              <span id="min-temp">00</span><span class="title_text">Min-Temp</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+            <div class="inner_discription">
+              <span id="max-temp">00</span><span class="title_text">Max-Temp</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+            <div class="inner_discription">
+              <span id="pressure">00</span><span class="title_text">Atmospheric Pressure</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DrNNmcrUAN1rnWdKTz_jjAaTlF81KQtVYA&usqp=CAU">
+            <div class="inner_discription">
+              <span id="sea-level">00</span><span class="title_text">Sea Level</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnO4cBmE1v3kGrq4HsWrnKinMLD8wquTgIsL212EhmdlHr9kKXGoKt9L8&s=10">
+            <div class="inner_discription">
+              <span id="ground-level">00</span><span class="title_text">Ground Level</span>
+            </div>
+
+
+          </div>
+
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+            <div class="inner_discription">
+              <span id="humidity">00</span><span class="title_text">Humidity</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC8qHoQ_QwXW9fBHVG8D-QzOQ6Yghi6ANRbA&usqp=CAU">
+            <div class="inner_discription">
+              <span id="visibility">00</span><span class="title_text">visibility</span>
+            </div>
+
+
+          </div>
+
+          <div class="other_details_box">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAnPkziMVNyOtHnZX3usCMtb3nEW3JkATEcg&usqp=CAU">
+            <div class="inner_discription">
+              <span id="timezone">00</span><span class="title_text">Time-Zone</span>
+            </div>
+
+
+          </div>
+
+
+          <div class="other_details_box_0">
+
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+            <div class="inner_discription">
+              <span class="result_text" id="wind-deg">00</span><span class="title_text">Wind Degree</span>
+            </div>
+
+            <div class="inner_discription">
+              <span class="result_text" id="wind-gust">00</span><span class="title_text">Wind Gust</span>
+            </div>
+
+            <div class="inner_discription">
+              <span class="result_text" id="wind-speed">00</span><span class="title_text">Wind Speed</span>
+            </div>
+
+          </div>
+
+
+
+          <div class="sunset_sunrise_box">
+
+
+
+
+
+            <div class="other_details_box_sun">
+
+              <div class="sun">
+                <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+
+                <div class="inner_discription">
+                  <span class="result_text" id="sunrise">00</span><span class="title_text">Sunrise</span>
+
+                </div>
+
+              </div>
+
+              <div class="sun">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+
+                <div class="inner_discription">
+                  <span class="result_text" id="sunset">00</span>
+                  <span class="title_text">Sunset</span>
+                </div>
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <br>
+
+
+      <h3 id="forcast_heading">7 Days Forecast</h3>
+
+
+      <!-- forecast start -->
+
+
+      <div id="total_forecast">
+
+
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-1">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-1">
+              <p>
+
+                <span id="main-1">main</span>
+                <span>,</span>
+                <span id="description-1">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-1">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-1">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-1">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-1">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-1">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-1">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-1">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-1">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-1">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-1">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-1">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-1">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-1">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-1">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-1">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-1">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-1">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+        <!-- second forecast -->
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-2">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-2">
+              <p>
+
+                <span id="main-2">main</span>
+                <span>,</span>
+                <span id="description-2">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-2">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-2">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-2">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-2">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-2">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-2">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-2">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-2">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-2">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-2">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-2">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-2">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-2">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-2">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-2">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-2">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-2">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+        <!-- third forecast -->
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-3">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-3">
+              <p>
+
+                <span id="main-3">main</span>
+                <span>,</span>
+                <span id="description-3">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-3">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-3">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-3">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-3">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-3">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-3">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-3">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-3">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-3">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-3">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-3">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-3">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-3">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-3">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-3">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-3">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-3">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+
+        <!-- fourth forecast-->
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-4">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-4">
+              <p>
+
+                <span id="main-4">main</span>
+                <span>,</span>
+                <span id="description-4">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-4">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-4">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-4">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-4">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-4">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-4">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-4">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-4">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-4">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-4">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-4">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-4">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-4">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-4">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-4">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-4">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-4">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+
+        <!-- fiveth forecast-->
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-5">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-5">
+              <p>
+
+                <span id="main-5">main</span>
+                <span>,</span>
+                <span id="description-5">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-5">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-5">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-5">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-5">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-5">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-5">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-5">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-5">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-5">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-5">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-5">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-5">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-5">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-5">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-5">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-5">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-5">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+
+        <!-- sixth forecast -->
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-6">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-6">
+              <p>
+
+                <span id="main-6">main</span>
+                <span>,</span>
+                <span id="description-6">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-6">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-6">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-6">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-6">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-6">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-6">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-6">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-6">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-6">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-6">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-6">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-6">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-6">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-6">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-6">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-6">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-6">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+        <!-- seventh forecast -->
+
+
+        <div id="forecast_weather_container">
+
+
+
+          <div class="temp_clould_box">
+
+
+            <div class="temp_details">
+
+              <p class="time" id="time-7">Date/Time</p>
+            </div>
+
+            <div class="cloud_img">
+              <img src="" id="icon-7">
+              <p>
+
+                <span id="main-7">main</span>
+                <span>,</span>
+                <span id="description-7">description</span>
+
+
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="total_other_details_container">
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://cdn.icon-icons.com/icons2/2607/PNG/512/weather_tforecast_hermometer_weather_temperature_summer_hot_icon_156066.png">
+              <div class="inner_discription">
+                <span id="day-temp-7">00</span><span class="title_text">Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-day-temp-7">00</span><span class="title_text">Feel Day Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://cdn-icons-png.flaticon.com/512/1542/1542653.png">
+              <div class="inner_discription">
+                <span id="min-temp-7">00</span><span class="title_text">Min Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="morn-temp-7">00</span><span class="title_text">Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-morn-temp-7">00</span><span class="title_text">Feel Morn Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbL7HehaTIbN8bKzjt-LsIvKeb9181Xd-NSw&usqp=CAU">
+              <div class="inner_discription">
+                <span id="max-temp-7">00</span><span class="title_text">Max Temp</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="forecast_details_box">
+
+              <i style="font-size: 30px">&#x1F321;</i>
+              <div class="inner_discription">
+                <span id="eve-temp-7">00</span><span class="title_text">Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-eve-temp-7">00</span><span class="title_text">Feel Even Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHn_LUJFLPPQDFryzr_icExHnd7hXysZ_whA-vyaMQkbq5tE0BtKAlYWc&s=10">
+              <div class="inner_discription">
+                <span id="pressure-7">00</span><span class="title_text">Atmospheric Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXOS0xtT35t40IM_Xn6fV3ObKuUd9L18pL0Q&usqp=CAU">
+              <div class="inner_discription">
+                <span id="night-temp-7">00</span><span class="title_text">Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://static-00.iconduck.com/assets.00/temperature-feels-like-icon-495x512-ylzv705f.png">
+              <div class="inner_discription">
+                <span id="feels-night-temp-7">00</span><span class="title_text">Feel Night Temp</span>
+              </div>
+
+
+            </div>
+
+            <div class="forecast_details_box">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovWn_sETqKurSbHlUazwMXlRWYqJo7nviraNj2RZ-yHeTABB0559B768T&s=10">
+              <div class="inner_discription">
+                <span id="humidity-7">00</span><span class="title_text">Humidity</span>
+              </div>
+
+
+            </div>
+
+
+            <div class="other_details_box_0">
+
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBhi74zyarkZrzYb16E5NQwdsXBIGQoKatA&usqp=CAU">
+              <div class="inner_discription">
+                <span class="result_text" id="wind-deg-7">00</span><span class="title_text">Wind Degree</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-gust-7">00</span><span class="title_text">Wind Gust</span>
+              </div>
+              <div class="inner_discription">
+                <span class="result_text" id="wind-speed-7">00</span><span class="title_text">Wind Speed</span>
+              </div>
+
+            </div>
+
+
+
+            <div class="sunset_sunrise_box">
+
+
+
+
+
+              <div class="other_details_box_sun">
+
+                <div class="sun">
+                  <img src="https://icon-library.com/images/sunrise-icon-png/sunrise-icon-png-15.jpg">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunrise-7">00</span><span class="title_text">Sunrise</span>
+                  </div>
+                </div>
+
+                <div class="sun">
+
+                  <img src="https://cdn-icons-png.flaticon.com/512/3226/3226463.png">
+                  <div class="inner_discription">
+                    <span class="result_text" id="sunset-7">00</span><span class="title_text">Sunset</span>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+        <!-- forecast end -->
+
+
+
+
+      </div>
+
+
+    </div>
+
+  </main>
+  
+   <footer>
+   
+    <img id="logo1" class="footerlogo" src="https://i.postimg.cc/zfbYqj3b/Picsart-23-03-27-22-09-10-193.png" height="50px" width="50">
+    <h3 class="hedfoot-heading3">THANKS FOR VISITING OUR WEBSITE</h3>
+    
+    <h4 class="hedfoot-heading2">OWNER OF THE WEBSITE: ARYAN AND ABHISHEK</h4>
+
+    
+</footer>
+
+
+  <script>
+    "use strict"
+
+
+    const Gorakhpur_current_weather_info = () => {
+
+      const Geo_api_url = `http://api.openweathermap.org/geo/1.0/direct?q=Gorakhpur&appid=3265874a2c77ae4a04bb96236a642d2f`
+
+
+
+      fetch(Geo_api_url)
+
+        .then(respond => respond.json())
+
+        .then(result => {
+
+
+          const Lat = result[0].lat
+
+          const Lon = result[0].lon
+
+
+
+
+
+          const Api_url = `https://api.openweathermap.org/data/2.5/weather?lat=${Lat}&lon=${Lon}&appid=6a3bcd847cb20cde0d429f8a283b13be&units=metric`
+
+
+          fetch(Api_url)
+
+            .then(respond => respond.json())
+
+            .then(result => {
+
+              const Current_temp = result.main.temp
+
+              const Max_temp = result.main.temp_max
+
+              const Min_temp = result.main.temp_min
+
+              const Temp_feels_like = result.main.feels_like
+
+              const Humidity = result.main.humidity
+
+              const Atmospheric_pressure = result.main.pressure
+
+              const Sea_level = result.main.sea_level
+
+              const Ground_level = result.main.grnd_level
+
+              const Timezone = result.timezone
+
+              const Visibility = result.visibility
+
+              const Wind_deg = result.wind.deg
+
+              const Wind_gust = result.wind.gust
+
+              const Wind_speed = result.wind.speed
+
+              const Main = result.weather[0].main
+
+              const Description = result.weather[0].description
+
+              const Icon = result.weather[0].icon
+
+              const Time_in_unix = result.dt
+
+              const Sunrise_in_unix = result.sys.sunrise
+
+              const Sunset_in_unix = result.sys.sunset
+
+              const Date_time_1 = new Date(Time_in_unix * 1000)
+
+              const Time = Date_time_1.toLocaleString()
+
+              const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+              const Sunrise = Date_time_2.toLocaleString()
+
+              const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+              const Sunset = Date_time_3.toLocaleString()
+
+              const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+              document.getElementById("current-temp").innerText = `${Current_temp}°C`
+
+
+              document.getElementById("max-temp").innerText = `${Max_temp}°C`
+
+              document.getElementById("min-temp").innerText = `${Min_temp}°C`
+
+              document.getElementById("temp-feels-like").innerText = `${Temp_feels_like}°C`
+
+              document.getElementById("humidity").innerText = `${Humidity}%`
+
+              document.getElementById("pressure").innerText = `${Atmospheric_pressure} hPa`
+
+              document.getElementById("sea-level").innerText = `${Sea_level} hPa`
+
+              document.getElementById("ground-level").innerText = `${Ground_level} hPa`
+
+              document.getElementById("timezone").innerText = `${Timezone} sec`
+
+              document.getElementById("visibility").innerText = `${Visibility} m`
+
+              document.getElementById("wind-deg").innerText = `${Wind_deg}°`
+
+              document.getElementById("wind-gust").innerText = `${Wind_gust} m/sec`
+
+              document.getElementById("wind-speed").innerText = `${Wind_speed} m/sec`
+
+              document.getElementById("main").innerText = Main
+
+              document.getElementById("description").innerText = Description
+
+              document.getElementById("time").innerText = Time
+
+              document.getElementById("sunrise").innerText = Sunrise
+
+              document.getElementById("sunset").innerText = Sunset
+
+              document.getElementById("icon").setAttribute("src", Icon_img_url)
+
+            })
+
+            .catch(error => {
+
+              alert("Sorry, failed to fetch Gorakhpur Current weather info, refresh the page or reload again...")
+
+            })
+
+        })
+
+        .catch(error => {
+
+          alert("Try again...")
+
+        })
+
+
+
+
+    }
+
+    window.addEventListener("load", Gorakhpur_current_weather_info)
+
+
+    const Gorakhpur_forecast_weather_info = () => {
+
+      const Geo_api_url = `http://api.openweathermap.org/geo/1.0/direct?q=Gorakhpur&appid=3265874a2c77ae4a04bb96236a642d2f`
+
+
+
+      fetch(Geo_api_url)
+
+        .then(respond => respond.json())
+
+        .then(result => {
+
+
+          const Lat = result[0].lat
+
+          const Lon = result[0].lon
+
+
+
+          const Api_url = `http://api.openweathermap.org/data/2.5/forecast/daily?lat=${Lat}&lon=${Lon}&cnt=8&appid=3265874a2c77ae4a04bb96236a642d2f&units=metric`
+
+
+          fetch(Api_url)
+
+            .then(respond => respond.json())
+
+            .then(result => {
+
+              console.log(result)
+
+              // part-1...
+
+
+
+              {
+                const Forecast_info_object = result.list[1]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-1").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-1").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-1").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-1").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-1").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-1").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-1").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-1").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-1").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-1").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-1").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-1").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-1").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-1").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-1").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-1").innerText = `${Main}`
+
+                document.getElementById("description-1").innerText = `${Description}`
+
+                document.getElementById("time-1").innerText = `${Time}`
+
+                document.getElementById("sunrise-1").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-1").innerText = `${Sunset}`
+
+                document.getElementById("icon-1").setAttribute("src", Icon_img_url)
+              }
+
+
+              // part-2..
+
+              {
+                const Forecast_info_object = result.list[2]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-2").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-2").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-2").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-2").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-2").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-2").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-2").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-2").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-2").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-2").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-2").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-2").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-2").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-2").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-2").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-2").innerText = `${Main}`
+
+                document.getElementById("description-2").innerText = `${Description}`
+
+                document.getElementById("time-2").innerText = `${Time}`
+
+                document.getElementById("sunrise-2").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-2").innerText = `${Sunset}`
+
+                document.getElementById("icon-2").setAttribute("src", Icon_img_url)
+              }
+
+
+              // part-3...
+
+
+              {
+                const Forecast_info_object = result.list[3]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-3").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-3").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-3").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-3").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-3").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-3").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-3").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-3").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-3").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-3").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-3").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-3").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-3").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-3").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-3").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-3").innerText = `${Main}`
+
+                document.getElementById("description-3").innerText = `${Description}`
+
+                document.getElementById("time-3").innerText = `${Time}`
+
+                document.getElementById("sunrise-3").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-3").innerText = `${Sunset}`
+
+                document.getElementById("icon-3").setAttribute("src", Icon_img_url)
+              }
+
+
+              // part-4...
+
+              {
+                const Forecast_info_object = result.list[4]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-4").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-4").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-4").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-4").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-4").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-4").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-4").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-4").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-4").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-4").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-4").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-4").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-4").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-4").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-4").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-4").innerText = `${Main}`
+
+                document.getElementById("description-4").innerText = `${Description}`
+
+                document.getElementById("time-4").innerText = `${Time}`
+
+                document.getElementById("sunrise-4").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-4").innerText = `${Sunset}`
+
+                document.getElementById("icon-4").setAttribute("src", Icon_img_url)
+              }
+
+              // part-5...
+
+              {
+                const Forecast_info_object = result.list[5]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-5").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-5").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-5").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-5").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-5").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-5").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-5").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-5").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-5").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-5").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-5").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-5").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-5").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-5").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-5").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-5").innerText = `${Main}`
+
+                document.getElementById("description-5").innerText = `${Description}`
+
+                document.getElementById("time-5").innerText = `${Time}`
+
+                document.getElementById("sunrise-5").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-5").innerText = `${Sunset}`
+
+                document.getElementById("icon-5").setAttribute("src", Icon_img_url)
+              }
+
+              // part-6...
+
+
+              {
+                const Forecast_info_object = result.list[6]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-6").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-6").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-6").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-6").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-6").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-6").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-6").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-6").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-6").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-6").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-6").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-6").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-6").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-6").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-6").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-6").innerText = `${Main}`
+
+                document.getElementById("description-6").innerText = `${Description}`
+
+                document.getElementById("time-6").innerText = `${Time}`
+
+                document.getElementById("sunrise-6").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-6").innerText = `${Sunset}`
+
+                document.getElementById("icon-6").setAttribute("src", Icon_img_url)
+              }
+
+
+              // part-7...
+
+
+              {
+                const Forecast_info_object = result.list[7]
+
+                const Day_temp = Forecast_info_object.temp.day
+
+                const Eve_temp = Forecast_info_object.temp.eve
+
+                const Morn_temp = Forecast_info_object.temp.morn
+
+                const Night_temp = Forecast_info_object.temp.night
+
+                const Max_temp = Forecast_info_object.temp.max
+
+                const Min_temp = Forecast_info_object.temp.min
+
+                const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                const Humidity = Forecast_info_object.humidity
+
+                const Atmospheric_pressure = Forecast_info_object.pressure
+
+                const Wind_deg = Forecast_info_object.deg
+
+                const Wind_gust = Forecast_info_object.gust
+
+                const Wind_speed = Forecast_info_object.speed
+
+                const Main = Forecast_info_object.weather[0].main
+
+                const Description = Forecast_info_object.weather[0].description
+
+                const Icon = Forecast_info_object.weather[0].icon
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                const Time_in_unix = Forecast_info_object.dt
+
+                const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                const Sunset_in_unix = Forecast_info_object.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                document.getElementById("morn-temp-7").innerText = `${Morn_temp}°C`
+
+                document.getElementById("day-temp-7").innerText = `${Day_temp}°C`
+
+                document.getElementById("eve-temp-7").innerText = `${Eve_temp}°C`
+
+                document.getElementById("night-temp-7").innerText = `${Night_temp}°C`
+
+                document.getElementById("max-temp-7").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp-7").innerText = `${Min_temp}°C`
+
+                document.getElementById("feels-morn-temp-7").innerText = `${Feels_morn_temp}°C`
+
+                document.getElementById("feels-day-temp-7").innerText = `${Feels_day_temp}°C`
+
+                document.getElementById("feels-eve-temp-7").innerText = `${Feels_eve_temp}°C`
+
+                document.getElementById("feels-night-temp-7").innerText = `${Feels_night_temp}°C`
+
+                document.getElementById("humidity-7").innerText = `${Humidity}%`
+
+                document.getElementById("pressure-7").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("wind-deg-7").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust-7").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed-7").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main-7").innerText = `${Main}`
+
+                document.getElementById("description-7").innerText = `${Description}`
+
+                document.getElementById("time-7").innerText = `${Time}`
+
+                document.getElementById("sunrise-7").innerText = `${Sunrise}`
+
+                document.getElementById("sunset-7").innerText = `${Sunset}`
+
+                document.getElementById("icon-7").setAttribute("src", Icon_img_url)
+              }
+
+
+
+            })
+
+            .catch(error => {
+
+              alert("Sorry, failed to fetch Gorakhpur forecast weather info, refresh or reload the page again...")
+
+            })
+
+        })
+
+        .catch(error => {
+
+          alert("Try again...")
+
+        })
+
+
+
+    }
+
+    window.addEventListener("load", Gorakhpur_forecast_weather_info)
+
+
+    const City_searched_current_weather_info = () => {
+
+      const City_name = document.getElementById("city-input").value.trim()
+
+      if (City_name === "")
+      {
+        alert("Enter the city name??")
+      }
+      else
+      {
+
+        const Geo_api_url = `http://api.openweathermap.org/geo/1.0/direct?q=${City_name}&appid=3265874a2c77ae4a04bb96236a642d2f`
+
+
+
+        fetch(Geo_api_url)
+
+          .then(respond => respond.json())
+
+          .then(result => {
+
+
+            const Lat = result[0].lat
+
+            const Lon = result[0].lon
+
+
+
+            const Api_url = `https://api.openweathermap.org/data/2.5/weather?lat=${Lat}&lon=${Lon}&appid=6a3bcd847cb20cde0d429f8a283b13be&units=metric`
+
+
+            fetch(Api_url)
+
+              .then(respond => respond.json())
+
+              .then(result => {
+
+                const Current_temp = result.main.temp
+
+                const Max_temp = result.main.temp_max
+
+                const Min_temp = result.main.temp_min
+
+                const Temp_feels_like = result.main.feels_like
+
+                const Humidity = result.main.humidity
+
+                const Atmospheric_pressure = result.main.pressure
+
+                const Sea_level = result.main.sea_level
+
+                const Ground_level = result.main.grnd_level
+
+                const Timezone = result.timezone
+
+                const Visibility = result.visibility
+
+                const Wind_deg = result.wind.deg
+
+                const Wind_gust = result.wind.gust
+
+                const Wind_speed = result.wind.speed
+
+                const Main = result.weather[0].main
+
+                const Description = result.weather[0].description
+
+                const Icon = result.weather[0].icon
+
+                const Time_in_unix = result.dt
+
+                const Sunrise_in_unix = result.sys.sunrise
+
+                const Sunset_in_unix = result.sys.sunset
+
+                const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                const Time = Date_time_1.toLocaleString()
+
+                const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                const Sunrise = Date_time_2.toLocaleString()
+
+                const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                const Sunset = Date_time_3.toLocaleString()
+
+                const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                document.getElementById("current-temp").innerText = `${Current_temp}°C`
+
+
+                document.getElementById("max-temp").innerText = `${Max_temp}°C`
+
+                document.getElementById("min-temp").innerText = `${Min_temp}°C`
+
+                document.getElementById("temp-feels-like").innerText = `${Temp_feels_like}°C`
+
+                document.getElementById("humidity").innerText = `${Humidity}%`
+
+                document.getElementById("pressure").innerText = `${Atmospheric_pressure} hPa`
+
+                document.getElementById("sea-level").innerText = `${Sea_level} hPa`
+
+                document.getElementById("ground-level").innerText = `${Ground_level} hPa`
+
+                document.getElementById("timezone").innerText = `${Timezone} sec`
+
+                document.getElementById("visibility").innerText = `${Visibility} m`
+
+                document.getElementById("wind-deg").innerText = `${Wind_deg}°`
+
+                document.getElementById("wind-gust").innerText = `${Wind_gust} m/sec`
+
+                document.getElementById("wind-speed").innerText = `${Wind_speed} m/sec`
+
+                document.getElementById("main").innerText = Main
+
+                document.getElementById("description").innerText = Description
+
+                document.getElementById("time").innerText = Time
+
+                document.getElementById("sunrise").innerText = Sunrise
+
+                document.getElementById("sunset").innerText = Sunset
+
+                document.getElementById("icon").setAttribute("src", Icon_img_url)
+
+                document.getElementById("city-show").innerText = City_name
+
+              })
+
+              .catch(error => {
+
+                alert(`Sorry, failed to fetch ${City_name} Current weather info,try again...`)
+
+              })
+
+
+
+
+
+          })
+
+          .catch(error => {
+
+            alert("Try again or invalid city input")
+
+          })
+
+
+      }
+
+    }
+
+
+    document.getElementById("search").addEventListener("click", City_searched_current_weather_info)
+
+
+    const City_searched_forecast_weather_info = () => {
+
+      const City_name = document.getElementById("city-input").value.trim()
+
+      if (City_name != "")
+      {
+
+        const Geo_api_url = `http://api.openweathermap.org/geo/1.0/direct?q=${City_name}&appid=3265874a2c77ae4a04bb96236a642d2f`
+
+
+
+        fetch(Geo_api_url)
+
+          .then(respond => respond.json())
+
+          .then(result => {
+
+
+            const Lat = result[0].lat
+
+            const Lon = result[0].lon
+
+            const Api_url = `http://api.openweathermap.org/data/2.5/forecast/daily?lat=${Lat}&lon=${Lon}&cnt=8&appid=3265874a2c77ae4a04bb96236a642d2f&units=metric`
+
+
+            fetch(Api_url)
+
+              .then(respond => respond.json())
+
+              .then(result => {
+
+                console.log(result)
+
+                // part-1...
+
+
+
+                {
+                  const Forecast_info_object = result.list[1]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-1").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-1").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-1").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-1").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-1").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-1").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-1").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-1").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-1").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-1").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-1").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-1").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-1").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-1").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-1").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-1").innerText = `${Main}`
+
+                  document.getElementById("description-1").innerText = `${Description}`
+
+                  document.getElementById("time-1").innerText = `${Time}`
+
+                  document.getElementById("sunrise-1").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-1").innerText = `${Sunset}`
+
+                  document.getElementById("icon-1").setAttribute("src", Icon_img_url)
+                }
+
+
+                // part-2..
+
+                {
+                  const Forecast_info_object = result.list[2]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-2").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-2").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-2").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-2").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-2").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-2").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-2").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-2").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-2").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-2").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-2").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-2").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-2").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-2").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-2").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-2").innerText = `${Main}`
+
+                  document.getElementById("description-2").innerText = `${Description}`
+
+                  document.getElementById("time-2").innerText = `${Time}`
+
+                  document.getElementById("sunrise-2").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-2").innerText = `${Sunset}`
+
+                  document.getElementById("icon-2").setAttribute("src", Icon_img_url)
+                }
+
+
+                // part-3...
+
+
+                {
+                  const Forecast_info_object = result.list[3]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-3").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-3").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-3").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-3").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-3").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-3").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-3").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-3").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-3").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-3").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-3").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-3").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-3").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-3").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-3").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-3").innerText = `${Main}`
+
+                  document.getElementById("description-3").innerText = `${Description}`
+
+                  document.getElementById("time-3").innerText = `${Time}`
+
+                  document.getElementById("sunrise-3").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-3").innerText = `${Sunset}`
+
+                  document.getElementById("icon-3").setAttribute("src", Icon_img_url)
+                }
+
+
+                // part-4...
+
+                {
+                  const Forecast_info_object = result.list[4]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-4").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-4").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-4").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-4").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-4").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-4").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-4").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-4").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-4").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-4").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-4").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-4").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-4").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-4").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-4").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-4").innerText = `${Main}`
+
+                  document.getElementById("description-4").innerText = `${Description}`
+
+                  document.getElementById("time-4").innerText = `${Time}`
+
+                  document.getElementById("sunrise-4").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-4").innerText = `${Sunset}`
+
+                  document.getElementById("icon-4").setAttribute("src", Icon_img_url)
+                }
+
+                // part-5...
+
+                {
+                  const Forecast_info_object = result.list[5]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-5").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-5").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-5").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-5").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-5").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-5").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-5").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-5").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-5").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-5").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-5").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-5").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-5").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-5").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-5").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-5").innerText = `${Main}`
+
+                  document.getElementById("description-5").innerText = `${Description}`
+
+                  document.getElementById("time-5").innerText = `${Time}`
+
+                  document.getElementById("sunrise-5").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-5").innerText = `${Sunset}`
+
+                  document.getElementById("icon-5").setAttribute("src", Icon_img_url)
+                }
+
+                // part-6...
+
+
+                {
+                  const Forecast_info_object = result.list[6]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-6").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-6").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-6").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-6").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-6").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-6").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-6").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-6").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-6").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-6").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-6").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-6").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-6").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-6").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-6").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-6").innerText = `${Main}`
+
+                  document.getElementById("description-6").innerText = `${Description}`
+
+                  document.getElementById("time-6").innerText = `${Time}`
+
+                  document.getElementById("sunrise-6").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-6").innerText = `${Sunset}`
+
+                  document.getElementById("icon-6").setAttribute("src", Icon_img_url)
+                }
+
+
+                // part-7...
+
+
+                {
+                  const Forecast_info_object = result.list[7]
+
+                  const Day_temp = Forecast_info_object.temp.day
+
+                  const Eve_temp = Forecast_info_object.temp.eve
+
+                  const Morn_temp = Forecast_info_object.temp.morn
+
+                  const Night_temp = Forecast_info_object.temp.night
+
+                  const Max_temp = Forecast_info_object.temp.max
+
+                  const Min_temp = Forecast_info_object.temp.min
+
+                  const Feels_day_temp = Forecast_info_object.feels_like.day
+
+                  const Feels_eve_temp = Forecast_info_object.feels_like.eve
+
+                  const Feels_morn_temp = Forecast_info_object.feels_like.morn
+
+                  const Feels_night_temp = Forecast_info_object.feels_like.night
+
+                  const Humidity = Forecast_info_object.humidity
+
+                  const Atmospheric_pressure = Forecast_info_object.pressure
+
+                  const Wind_deg = Forecast_info_object.deg
+
+                  const Wind_gust = Forecast_info_object.gust
+
+                  const Wind_speed = Forecast_info_object.speed
+
+                  const Main = Forecast_info_object.weather[0].main
+
+                  const Description = Forecast_info_object.weather[0].description
+
+                  const Icon = Forecast_info_object.weather[0].icon
+
+                  const Icon_img_url = `https://openweathermap.org/img/wn/${Icon}@2x.png`
+
+                  const Time_in_unix = Forecast_info_object.dt
+
+                  const Sunrise_in_unix = Forecast_info_object.sunrise
+
+                  const Sunset_in_unix = Forecast_info_object.sunset
+
+                  const Date_time_1 = new Date(Time_in_unix * 1000)
+
+                  const Time = Date_time_1.toLocaleString()
+
+                  const Date_time_2 = new Date(Sunrise_in_unix * 1000)
+
+                  const Sunrise = Date_time_2.toLocaleString()
+
+                  const Date_time_3 = new Date(Sunset_in_unix * 1000)
+
+                  const Sunset = Date_time_3.toLocaleString()
+
+                  document.getElementById("morn-temp-7").innerText = `${Morn_temp}°C`
+
+                  document.getElementById("day-temp-7").innerText = `${Day_temp}°C`
+
+                  document.getElementById("eve-temp-7").innerText = `${Eve_temp}°C`
+
+                  document.getElementById("night-temp-7").innerText = `${Night_temp}°C`
+
+                  document.getElementById("max-temp-7").innerText = `${Max_temp}°C`
+
+                  document.getElementById("min-temp-7").innerText = `${Min_temp}°C`
+
+                  document.getElementById("feels-morn-temp-7").innerText = `${Feels_morn_temp}°C`
+
+                  document.getElementById("feels-day-temp-7").innerText = `${Feels_day_temp}°C`
+
+                  document.getElementById("feels-eve-temp-7").innerText = `${Feels_eve_temp}°C`
+
+                  document.getElementById("feels-night-temp-7").innerText = `${Feels_night_temp}°C`
+
+                  document.getElementById("humidity-7").innerText = `${Humidity}%`
+
+                  document.getElementById("pressure-7").innerText = `${Atmospheric_pressure} hPa`
+
+                  document.getElementById("wind-deg-7").innerText = `${Wind_deg}°`
+
+                  document.getElementById("wind-gust-7").innerText = `${Wind_gust} m/sec`
+
+                  document.getElementById("wind-speed-7").innerText = `${Wind_speed} m/sec`
+
+                  document.getElementById("main-7").innerText = `${Main}`
+
+                  document.getElementById("description-7").innerText = `${Description}`
+
+                  document.getElementById("time-7").innerText = `${Time}`
+
+                  document.getElementById("sunrise-7").innerText = `${Sunrise}`
+
+                  document.getElementById("sunset-7").innerText = `${Sunset}`
+
+                  document.getElementById("icon-7").setAttribute("src", Icon_img_url)
+                }
+
+
+
+              })
+
+              .catch(error => {
+
+                alert(`Sorry, failed to fetch ${City_name} forecast weather info,try again...`)
+
+              })
+
+
+          })
+
+          .catch(error => {
+
+            alert("Try again or invalid city input")
+
+          })
+
+
+
+
+
+      }
+
+
+    }
+
+
+    document.getElementById("search").addEventListener("click", City_searched_forecast_weather_info)
+  </script>
+
+
+</body>
+
+</html>
